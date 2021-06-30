@@ -1,0 +1,167 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>Projet YS2020</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" type="text/css" href="./css/bootstrap.css" />
+<link rel="stylesheet" type="text/css" href="./css/new_style.css" />
+
+<link rel="icon" type="image/png" sizes="96x96" href="./favicon.ico">
+
+<script src="./scripts/jquery-3.4.1.min.js"></script>
+<script src="./scripts/bootstrap.js"></script>
+
+</head>
+<body>	
+ <h1>Puissance 4 PSB</h1>
+ <div style="margin: auto 20px;">
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#PersonnaliserModal">
+    Personnaliser le jeu 
+  </button>
+  <button id="recommencer" class="btn btn-success" >Recommencer</button>
+</div>
+<div id="plateau"></div>
+<div class="displayTurn" >
+      <p  id="TurnInfo" style="margin-top: 30px;"></p>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="ScoreModal"  role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Puissance 4 PSB</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Le <span id="winner"></span> a gagné.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+       </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="PersonnaliserModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document" >
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Personnaliser</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div id="LoginPart" style="display: none;"> 
+          <form style="text-align: left;margin-bottom: 70px;" method="POST" action="http://localhost:4800/api/login" id="LoginForm">
+            <p>Se connecter</p>
+            <div class="form-group">
+              <label for="username">Login</label>
+              <input type="text" class="form-control" id="username"  name="username">
+              <small id="emailHelp" class="form-text text-muted">Email ou téléphone</small>
+            </div>
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input type="password" class="form-control" id="password" name="password">
+            </div>
+            <button type="submit" class="btn btn-success float-right" >Valider</button>
+
+          </form>
+<hr>
+           
+
+          <form style="text-align: left;" method="POST" action="http://localhost:4800/api/register" id="RegisterForm">
+            <p>Créer un compte</p>
+            <div class="form-group">
+              <label for="Registername">Nom</label>
+              <input type="text" class="form-control" id="RegisterName"  name="name">
+            </div>
+            <div class="form-group">
+              <label for="username">Email</label>
+              <input type="text" class="form-control" id="RegisterEmail"  name="email">
+            </div>
+            <div class="form-group">
+              <label for="RegisterPhone">Téléphone</label>
+              <input type="text" class="form-control" id="RegisterPhone"  name="phone">
+            </div>
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input type="password" class="form-control" id="Registerpassword" name="password">
+            </div>
+            <button type="submit" class="btn btn-success float-right" >Valider</button>
+          </form>
+        </div>
+
+        <div id="PersoPart">
+          <form method="PATCH" action="http://localhost:4800/api/perso" id="PersoForm">
+        <table style="text-align: center">
+              <tbody>
+          <tr>
+              <td style="padding-right: 10px;"><p style="margin: 0px;">Joueur 1</p> </td>
+              <td style="padding-right: 10px;padding-bottom: 5px">
+                <input class="form-control" type="color" style="width: 50px" name="Color1" value="#FF0000">
+              </td>
+              <td style="padding-right: 10px;padding-bottom: 5px">
+                <input class="form-control" type="text" placeholder="Pseudo" name="Pseudo1" value="">
+              </td>
+           </tr>
+
+           <tr>
+            <td style="padding-right: 10px;"><p style="margin: 0px;">Joueur 2</p> </td>
+            <td style="padding-right: 10px;padding-bottom: 5px">
+              <input class="form-control" type="color" style="width: 50px" name="Color2" value="#FFFF00">
+            </td>
+            <td style="padding-right: 10px;padding-bottom: 5px">
+              <input class="form-control" type="text" placeholder="Pseudo" name="Pseudo2" value="">
+            </td>
+         </tr>
+              </tbody>       
+      </table>
+
+        <div class="row" style="margin: 0px;">
+            <div class="form-inline" style="margin-bottom:5px;">
+              <label for="ColonneInput" style="width: 250px;justify-content: left">Nombre de colonne</label>
+              <input id="ColonneInput" class="form-control" style="width: 80px;" type="number" value="6">
+            </div>
+            <div class="form-inline" style="margin-bottom:5px;">
+              <label for="LigneInput" style="width: 250px;justify-content: left">Nombre de ligne</label>
+              <input id="LigneInput" class="form-control" type="number" style="width: 80px;" value="7">
+            </div>
+            <div class="form-inline" style="margin-bottom:5px;">
+              <label for="GoalInput" style="width: 250px;justify-content: left">Nombre de case gagnante</label>
+              <input id="GoalInput" class="form-control" style="width: 80px;" type="number" value="4">
+            </div>
+            <div class="form-inline" >
+              <label for="CouleurPlateauInput" style="width: 250px;justify-content: left">Couleur du plateau</label>
+              <input id="CouleurPlateauInput" class="form-control" style="width: 80px;" type="color" value="#8A2BE2">
+            </div>
+          </form>
+        </div>
+
+      </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+        <button id="PersoBtn" type="button" class="btn btn-success">Enregistrer</button>
+        <button id="ToggleBtn" type="button" class="btn btn-primary" onclick="ToggleLogin(this)">Se connecter</button>
+        <button id="DeconnectionBtn" type="button" class="btn btn-primary" onclick="Deconnect()"  >Se déconnecter</button>
+      </div>
+     
+    </div>
+  </div>
+</div>
+
+<script src='./scripts/config.js'></script> 
+<script src='./scripts/comportement.js'></script> 
+
+</body>
+</html>
